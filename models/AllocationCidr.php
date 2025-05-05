@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @copyright Copyright (C) 2021-2025 AIZAWA Hina
- * @license https://github.com/fetus-hina/ipv4.fetus.jp/blob/master/LICENSE MIT
- * @author AIZAWA Hina <hina@fetus.jp>
- */
-
 declare(strict_types=1);
 
 namespace app\models;
@@ -14,13 +8,14 @@ use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "{{%allocation_cidr}}".
+ * Table {{%allocation_cidr}}
  *
- * @property int $id
- * @property int $block_id
- * @property string $cidr
+ * @property int    $id
+ * @property int    $block_id
+ * @property string $cidr        CIDR
+ * @property int    $ip_version  4|6
  *
- * @property ?AllocationBlock $block
+ * @property-read AllocationBlock|null $block
  */
 final class AllocationCidr extends ActiveRecord
 {
@@ -29,37 +24,36 @@ final class AllocationCidr extends ActiveRecord
         return '{{%allocation_cidr}}';
     }
 
-    /**
-     * @inheritdoc
-     * @return array[]
-     */
-    public function rules()
+    /** @inheritdoc */
+    public function rules(): array
     {
         return [
-            [['block_id', 'cidr'], 'required'],
+            [['block_id', 'cidr', 'ip_version'], 'required'],
             [['block_id'], 'integer'],
             [['cidr'], 'string'],
-            [['cidr'], 'unique'],
+            ['ip_version', 'in', 'range' => [4, 6]],
+            [['block_id', 'cidr', 'ip_version'], 'unique',
+                'targetAttribute' => ['block_id', 'cidr', 'ip_version'],
+            ],
+            [['cidr', 'ip_version'], 'unique',
+                'targetAttribute' => ['cidr', 'ip_version'],
+            ],
             [['block_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => AllocationBlock::class,
-                'targetAttribute' => [
-                    'block_id' => 'id',
-                ],
+                'targetAttribute' => ['block_id' => 'id'],
             ],
         ];
     }
 
-    /**
-     * @codeCoverageIgnore
-     * @return array<string, string>
-     */
-    public function attributeLabels()
+    /** @codeCoverageIgnore */
+    public function attributeLabels(): array
     {
         return [
-            'id' => 'ID',
-            'block_id' => 'Block ID',
-            'cidr' => 'Cidr',
+            'id'         => 'ID',
+            'block_id'   => 'Block ID',
+            'cidr'       => 'CIDR',
+            'ip_version' => 'IP Version',
         ];
     }
 

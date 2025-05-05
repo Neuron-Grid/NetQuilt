@@ -1,116 +1,117 @@
 {
-    "name": "jp3cki/ipv4.fetus.jp",
-    "description": "ipv4.fetus.jp",
-    "license": "MIT",
-    "type": "project",
-    "homepage": "https://ipv4.fetus.jp/",
-    "support": {
-        "issues": "https://github.com/fetus-hina/ipv4.fetus.jp/issues",
-        "source": "https://github.com/fetus-hina/ipv4.fetus.jp"
-    },
-    "require": {
-        "php": ">= 8.4",
-        "php-64bit": "*",
-        "php-ipv6": "*",
-        "ext-curl": "*",
-        "ext-date": "*",
-        "ext-hash": "*",
-        "ext-intl": "*",
-        "ext-json": "*",
-        "ext-mbstring": "*",
-        "ext-pcre": "*",
-        "ext-pdo": "*",
-        "ext-pdo_pgsql": "*",
-        "ext-session": "*",
-        "ext-spl": "*",
-        "cweagans/composer-patches": "^1.7.3",
-        "lipis/flag-icons": "^7.3.2",
-        "matomo/device-detector": "^6.4.5",
-        "statink/yii2-sortable-table": "^1.0.2",
-        "twbs/bootstrap-icons": "^1.11.3",
-        "yiisoft/yii2": "^2.0.52",
-        "yiisoft/yii2-bootstrap5": "^2.0.50",
-        "yiisoft/yii2-httpclient": "^2.0.16"
-    },
-    "require-dev": {
-        "codeception/codeception": "^5.2.1",
-        "codeception/module-asserts": "^3.1.0",
-        "codeception/module-filesystem": "^3.0.1",
-        "codeception/module-yii2": "^1.1.12",
-        "codeception/specify": "^2.0.0",
-        "codeception/verify": "^3.3.0",
-        "ergebnis/composer-normalize": "^2.47.0",
-        "jp3cki/coding-standard": "^1.0.2",
-        "masterminds/html5": "^2.9.0",
-        "proget-hq/phpstan-yii2": "^0.8.0",
-        "squizlabs/php_codesniffer": "^3.12.2",
-        "symfony/browser-kit": "^6.4.19 || ^7.0.0",
-        "symfony/css-selector": "^7.2.0",
-        "yiisoft/yii2-debug": "^2.1.26",
-        "yiisoft/yii2-gii": "^2.2.7"
-    },
-    "replace": {
-        "bower-asset/bootstrap": "*",
-        "bower-asset/inputmask": "*",
-        "bower-asset/jquery": "*",
-        "bower-asset/punycode": "*",
-        "bower-asset/yii2-pjax": "*",
-        "npm-asset/bootstrap": "*",
-        "npm-asset/stupid-table-plugin": "*",
-        "paragonie/random_compat": "*",
-        "symfony/polyfill-mbstring": "*",
-        "symfony/polyfill-php70": "*",
-        "symfony/polyfill-php71": "*",
-        "symfony/polyfill-php72": "*",
-        "symfony/polyfill-php73": "*",
-        "symfony/polyfill-php74": "*",
-        "symfony/polyfill-php80": "*",
-        "symfony/polyfill-php81": "*",
-        "symfony/polyfill-php82": "*",
-        "symfony/polyfill-php83": "*",
-        "symfony/polyfill-php84": "*"
-    },
-    "repositories": {
-        "statink": {
-            "type": "composer",
-            "url": "https://satis.stat.ink"
-        }
-    },
-    "minimum-stability": "stable",
-    "autoload": {
-        "psr-4": {
-            "app\\": "./"
-        }
-    },
-    "config": {
-        "allow-plugins": {
-            "cweagans/composer-patches": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true,
-            "ergebnis/composer-normalize": true,
-            "yiisoft/yii2-composer": true
-        },
-        "platform": {
-            "php": "8.4.6"
-        },
-        "process-timeout": 1800
-    },
-    "extra": {
-        "patches": {
-            "localheinz/diff": {
-                "fix: deprecation implicit nullable PHP 8.4": "data/patches/composer/localheinz/diff/72-8a5d1e5-fix-deprecation-implicit-nullable-php-8.4.patch"
-            }
-        }
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "[ $COMPOSER_DEV_MODE -eq 0 ] || ./vendor/bin/codecept build",
-            "./yii license/clean-extracted",
-            "./yii license/extract"
-        ],
-        "post-update-cmd": [
-            "[ $COMPOSER_DEV_MODE -eq 0 ] || ./vendor/bin/codecept build",
-            "./yii license/clean-extracted",
-            "./yii license/extract"
-        ]
-    }
+	"name": "neuron-grid/net-quilt",
+	"description": "NetQuilt",
+	"license": "MIT",
+	"type": "project",
+	"homepage": "https://github.com/Neuron-Grid/NetQuilt",
+	"support": {
+		"issues": "https://github.com/Neuron-Grid/NetQuilt/issues",
+		"source": "https://github.com/Neuron-Grid/NetQuilt"
+	},
+	"require": {
+		"php": ">= 8.4",
+		"php-64bit": "*",
+		"php-ipv6": "*",
+		"ext-curl": "*",
+		"ext-date": "*",
+		"ext-hash": "*",
+		"ext-intl": "*",
+		"ext-json": "*",
+		"ext-mbstring": "*",
+		"ext-pcre": "*",
+		"ext-pdo": "*",
+		"ext-pdo_pgsql": "*",
+		"ext-session": "*",
+		"ext-spl": "*",
+		"brick/math": "^0.11",
+		"cweagans/composer-patches": "^1.7.3",
+		"lipis/flag-icons": "^7.3.2",
+		"matomo/device-detector": "^6.4.5",
+		"statink/yii2-sortable-table": "^1.0.2",
+		"twbs/bootstrap-icons": "^1.11.3",
+		"yiisoft/yii2": "^2.0.52",
+		"yiisoft/yii2-bootstrap5": "^2.0.50",
+		"yiisoft/yii2-httpclient": "^2.0.16"
+	},
+	"require-dev": {
+		"codeception/codeception": "^5.2.1",
+		"codeception/module-asserts": "^3.1.0",
+		"codeception/module-filesystem": "^3.0.1",
+		"codeception/module-yii2": "^1.1.12",
+		"codeception/specify": "^2.0.0",
+		"codeception/verify": "^3.3.0",
+		"ergebnis/composer-normalize": "^2.47.0",
+		"jp3cki/coding-standard": "^1.0.2",
+		"masterminds/html5": "^2.9.0",
+		"proget-hq/phpstan-yii2": "^0.8.0",
+		"squizlabs/php_codesniffer": "^3.12.2",
+		"symfony/browser-kit": "^6.4.19 || ^7.0.0",
+		"symfony/css-selector": "^7.2.0",
+		"yiisoft/yii2-debug": "^2.1.26",
+		"yiisoft/yii2-gii": "^2.2.7"
+	},
+	"replace": {
+		"bower-asset/bootstrap": "*",
+		"bower-asset/inputmask": "*",
+		"bower-asset/jquery": "*",
+		"bower-asset/punycode": "*",
+		"bower-asset/yii2-pjax": "*",
+		"npm-asset/bootstrap": "*",
+		"npm-asset/stupid-table-plugin": "*",
+		"paragonie/random_compat": "*",
+		"symfony/polyfill-mbstring": "*",
+		"symfony/polyfill-php70": "*",
+		"symfony/polyfill-php71": "*",
+		"symfony/polyfill-php72": "*",
+		"symfony/polyfill-php73": "*",
+		"symfony/polyfill-php74": "*",
+		"symfony/polyfill-php80": "*",
+		"symfony/polyfill-php81": "*",
+		"symfony/polyfill-php82": "*",
+		"symfony/polyfill-php83": "*",
+		"symfony/polyfill-php84": "*"
+	},
+	"repositories": {
+		"statink": {
+			"type": "composer",
+			"url": "https://satis.stat.ink"
+		}
+	},
+	"minimum-stability": "stable",
+	"autoload": {
+		"psr-4": {
+			"app\\": "./"
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"cweagans/composer-patches": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"ergebnis/composer-normalize": true,
+			"yiisoft/yii2-composer": true
+		},
+		"platform": {
+			"php": "8.4.6"
+		},
+		"process-timeout": 1800
+	},
+	"extra": {
+		"patches": {
+			"localheinz/diff": {
+				"fix: deprecation implicit nullable PHP 8.4": "data/patches/composer/localheinz/diff/72-8a5d1e5-fix-deprecation-implicit-nullable-php-8.4.patch"
+			}
+		}
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"[ $COMPOSER_DEV_MODE -eq 0 ] || ./vendor/bin/codecept build",
+			"./yii license/clean-extracted",
+			"./yii license/extract"
+		],
+		"post-update-cmd": [
+			"[ $COMPOSER_DEV_MODE -eq 0 ] || ./vendor/bin/codecept build",
+			"./yii license/clean-extracted",
+			"./yii license/extract"
+		]
+	}
 }

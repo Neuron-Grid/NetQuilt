@@ -10,7 +10,9 @@ declare(strict_types=1);
 
 namespace app\helpers;
 
-use function ip2long;
+use Brick\Math\BigInteger;
+use function filter_var;
+use const FILTER_VALIDATE_IP;
 
 class CountToCidr
 {
@@ -19,15 +21,19 @@ class CountToCidr
      */
     public static function convert(string $startAddress, int $count): ?array
     {
-        if ($count < 1 || $count > 0xffffffff) {
+        // 必ず 1 以上
+        if ($count < 1) {
             return null;
         }
 
-        $iplong = @ip2long($startAddress);
-        if ($iplong !== false) {
-            return IPHelper::splitBlock($iplong, (int)$count);
+        // IP 文字列が無効なら処理しない
+        if (!filter_var($startAddress, FILTER_VALIDATE_IP)) {
+            return null;
         }
 
-        return null;
+        // IPv4 は int、IPv6 は BigInteger で扱う
+        $countBI = BigInteger::of($count);
+
+        return IPHelper::splitBlock($startAddress, $countBI);
     }
 }

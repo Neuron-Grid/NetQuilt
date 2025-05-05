@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @copyright Copyright (C) 2021-2025 AIZAWA Hina
- * @license https://github.com/fetus-hina/ipv4.fetus.jp/blob/master/LICENSE MIT
- * @author AIZAWA Hina <hina@fetus.jp>
+ * @copyright Copyright (C) 2021-2025
+ * @license   MIT
+ * @author    AIZAWA Hina
  */
 
 declare(strict_types=1);
@@ -14,18 +14,19 @@ use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "{{%allocation_block}}".
+ * Table {{%allocation_block}}
  *
- * @property int $id
- * @property int $count
+ * @property int         $id
+ * @property string      $start_address  INET
+ * @property string      $count          NUMERIC(39,0)  ← IPv6 /32 = 2^96
+ * @property int         $ip_version     4|6
  * @property string|null $date
- * @property string $region_id
- * @property string $registry_id
- * @property string $start_address
+ * @property string      $region_id
+ * @property string      $registry_id
  *
- * @property AllocationCidr[] $allocationCidrs
- * @property ?Region $region
- * @property ?Registry $registry
+ * @property-read AllocationCidr[] $allocationCidrs
+ * @property-read Region|null      $region
+ * @property-read Registry|null    $registry
  */
 final class AllocationBlock extends ActiveRecord
 {
@@ -34,54 +35,43 @@ final class AllocationBlock extends ActiveRecord
         return '{{%allocation_block}}';
     }
 
-    /**
-     * @inheritdoc
-     * @return array[]
-     */
-    public function rules()
+    /** @inheritdoc */
+    public function rules(): array
     {
         return [
-            [['start_address', 'count', 'registry_id', 'region_id'], 'required'],
+            [['start_address', 'count', 'ip_version', 'registry_id', 'region_id'], 'required'],
             [['start_address'], 'string'],
-            [['count'], 'integer'],
+            // NUMERIC を文字列で受け取りつつ整数性を担保
+            ['count', 'match', 'pattern' => '/^\d+$/'],
+            ['ip_version', 'in', 'range' => [4, 6]],
             [['date'], 'safe'],
-            [['registry_id'], 'string',
-                'max' => 7,
-            ],
-            [['region_id'], 'string',
-                'max' => 2,
-            ],
-            [['start_address'], 'unique'],
+            [['registry_id'], 'string', 'max' => 7],
+            [['region_id'], 'string', 'max' => 2],
+            [['start_address', 'ip_version'], 'unique', 'targetAttribute' => ['start_address', 'ip_version']],
             [['region_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Region::class,
-                'targetAttribute' => [
-                    'region_id' => 'id',
-                ],
+                'targetAttribute' => ['region_id' => 'id'],
             ],
             [['registry_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Registry::class,
-                'targetAttribute' => [
-                    'registry_id' => 'id',
-                ],
+                'targetAttribute' => ['registry_id' => 'id'],
             ],
         ];
     }
 
-    /**
-     * @codeCoverageIgnore
-     * @return array<string, string>
-     */
-    public function attributeLabels()
+    /** @codeCoverageIgnore */
+    public function attributeLabels(): array
     {
         return [
-            'id' => 'ID',
-            'count' => 'Count',
-            'date' => 'Date',
-            'region_id' => 'Region ID',
-            'registry_id' => 'Registry ID',
+            'id'            => 'ID',
             'start_address' => 'Start Address',
+            'count'         => 'Address Count',
+            'ip_version'    => 'IP Version',
+            'date'          => 'Date',
+            'region_id'     => 'Region ID',
+            'registry_id'   => 'Registry ID',
         ];
     }
 

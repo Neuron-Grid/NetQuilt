@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @copyright Copyright (C) 2021-2025 AIZAWA Hina
- * @license https://github.com/fetus-hina/ipv4.fetus.jp/blob/master/LICENSE MIT
- * @author AIZAWA Hina <hina@fetus.jp>
- */
-
 declare(strict_types=1);
 
 namespace app\models;
@@ -14,13 +8,14 @@ use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "{{%merged_cidr}}".
+ * Table {{%merged_cidr}}
  *
- * @property int $id
- * @property string $cidr
+ * @property int    $id
+ * @property string $cidr        CIDR
  * @property string $region_id
+ * @property int    $ip_version  4|6
  *
- * @property ?Region $region
+ * @property-read Region|null $region
  */
 final class MergedCidr extends ActiveRecord
 {
@@ -29,47 +24,36 @@ final class MergedCidr extends ActiveRecord
         return '{{%merged_cidr}}';
     }
 
-    /**
-     * @inheritdoc
-     * @return array[]
-     */
-    public function rules()
+    /** @inheritdoc */
+    public function rules(): array
     {
         return [
-            [['region_id', 'cidr'], 'required'],
+            [['region_id', 'cidr', 'ip_version'], 'required'],
             [['cidr'], 'string'],
-            [['region_id'], 'string',
-                'max' => 2,
+            [['region_id'], 'string', 'max' => 2],
+            ['ip_version', 'in', 'range' => [4, 6]],
+            [['region_id', 'cidr', 'ip_version'], 'unique',
+                'targetAttribute' => ['region_id', 'cidr', 'ip_version'],
             ],
-            [['region_id', 'cidr'], 'unique',
-                'skipOnEmpty' => true,
-                'skipOnError' => true,
-                'targetAttribute' => [
-                    'region_id',
-                    'cidr',
-                ],
+            [['cidr', 'ip_version'], 'unique',
+                'targetAttribute' => ['cidr', 'ip_version'],
             ],
-            [['cidr'], 'unique'],
             [['region_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Region::class,
-                'targetAttribute' => [
-                    'region_id' => 'id',
-                ],
+                'targetAttribute' => ['region_id' => 'id'],
             ],
         ];
     }
 
-    /**
-     * @codeCoverageIgnore
-     * @return array<string, string>
-     */
-    public function attributeLabels()
+    /** @codeCoverageIgnore */
+    public function attributeLabels(): array
     {
         return [
-            'id' => 'ID',
-            'cidr' => 'Cidr',
-            'region_id' => 'Region ID',
+            'id'         => 'ID',
+            'cidr'       => 'CIDR',
+            'region_id'  => 'Region ID',
+            'ip_version' => 'IP Version',
         ];
     }
 
